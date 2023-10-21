@@ -27,7 +27,6 @@ class Record:
         self.phones = []
 
     def add_phone(self, phone):
-        print(Phone(phone))
         self.phones.append(Phone(phone))
 
     def find_phone(self, phone):
