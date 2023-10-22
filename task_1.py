@@ -42,7 +42,7 @@ def phone_contact(username, contacts):
 
 
 def all_contact(contacts):
-    res = f"\nAll phones:\n"
+    res = "\nAll phones:\n"
     for key, value in contacts.items():
         res += f"{key}: {value}\n"
     return res
