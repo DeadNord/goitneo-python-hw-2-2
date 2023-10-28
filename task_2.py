@@ -8,9 +8,16 @@ class Field:
     def __str__(self):
         return str(self.value)
 
+    def __eq__(self, other):
+        return self.value == other
+
 
 class Name(Field):
-    pass
+    def __init__(self, value):
+        super().__init__(value)
+
+    def __hash__(self):
+        return hash(self.value)
 
 
 class Phone(Field):
@@ -30,17 +37,17 @@ class Record:
         self.phones.append(Phone(phone))
 
     def find_phone(self, phone):
-        res = list(filter(lambda x: str(x) == phone, self.phones))[0]
-        return res
+        try:
+            res = list(filter(lambda x: x == phone, self.phones))[0]
+            return res
+        except:
+            raise ValueError("Phone not found")
 
     def edit_phone(self, old_phone, new_phone):
         for idx, phone in enumerate(self.phones):
-            if str(phone) == old_phone:
+            if phone == old_phone:
                 self.phones[idx] = Phone(new_phone)
                 print(f"Phone number updated to {new_phone}")
-
-    # def remove_phone(self, phone):
-    #     print()
 
     def __str__(self):
         return f"Contact name: {self.name}, phones: {'; '.join(p.value for p in self.phones)}"
@@ -54,15 +61,11 @@ class AddressBook(UserDict):
         self.data[record.name] = record
 
     def find(self, name):
-        for key, record in self.data.items():
-            if name == str(key):
-                return record
-            else:
-                return None
+        return self.data.get(name)
 
     def delete(self, name):
         for i in self.data:
-            if str(i) == name:
+            if i == name:
                 del i
                 print(f"Contact {name} has been deleted.")
 
